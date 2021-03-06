@@ -19,6 +19,10 @@ input {
   height: 80%;
 }
 
+#badQuery {
+  display: none;
+}
+
 .navbar {
   background-color: #FFFFFF;
   border: none;

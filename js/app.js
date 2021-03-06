@@ -13,13 +13,12 @@ new Litepicker({
 // Get date range 
 document.getElementById('getRange').addEventListener('click', function() {
   let dateStr = document.getElementById('datepicker').value;
-  document.getElementById('test').innerHTML = dateStr;
   const dateLength = 10;
   let startDate = dateStr.substring(0,dateLength);
   let endDate = dateStr.slice(-dateLength);
   console.log(startDate);
   console.log(endDate);
-
+  getPermits(startDate,endDate);
 });
 
 // Initialize map
@@ -46,47 +45,54 @@ const getPermits = (startDate, endDate) => {
   console.log(endDate);
   markers.clearLayers();
   // startDate,endDate,workGroup,contractor,commName,address
-  //const url = 'https://data.calgary.ca/resource/c2es-76ed.geojson?' + '$where=issueddate > ' + '\'' + startDate + '\'' + ' and issueddate < ' + '\'' + endDate + '\'';
-  const url = 'https://data.calgary.ca/resource/c2es-76ed.geojson?' + '$where=issueddate > ' + '\'' + '2021-01-02' + '\'' + ' and issueddate < ' + '\'' + '2021-03-05' + '\'';
+  const url = 'https://data.calgary.ca/resource/c2es-76ed.geojson?' + '$where=issueddate > ' + '\'' + startDate + '\'' + ' and issueddate < ' + '\'' + endDate + '\'';
+  //const url = 'https://data.calgary.ca/resource/c2es-76ed.geojson?' + '$where=issueddate > ' + '\'' + '2021-01-02' + '\'' + ' and issueddate < ' + '\'' + '2021-03-05' + '\'';
   console.log(url);
   fetch(url)
   .then(response => response.json())
   .then(data => {
     console.log(data);
-    for (let el of data.features) {
-      console.log(el);
-      const allFields = ['issueddate','workclassgroup','contractorname','communityname','originaladdress'];
-      if (el.geometry != null) {
-        let lat = parseFloat(el.properties.latitude);
-        let lon = parseFloat(el.properties.longitude);
-        
-        let permitDetails = {};
-        // Check if permit details exist 
-        for (let field of allFields) {
-          if (el.properties.hasOwnProperty(field) && el.properties[field] != null) {
-            permitDetails[field] = el.properties[field];
+    if (data.features.length != 0) {
+      document.getElementById('badQuery').style.display = "none";
+      for (let el of data.features) {
+        console.log(el);
+        const allFields = ['issueddate','workclassgroup','contractorname','communityname','originaladdress'];
+        if (el.geometry != null) {
+          let lat = parseFloat(el.properties.latitude);
+          let lon = parseFloat(el.properties.longitude);
+          
+          let permitDetails = {};
+          // Check if permit details exist 
+          for (let field of allFields) {
+            if (el.properties.hasOwnProperty(field) && el.properties[field] != null) {
+              permitDetails[field] = el.properties[field];
+            }
+            else {
+              permitDetails[field] = 'No Info';
+            }
           }
-          else {
-            permitDetails[field] = 'No Info';
+          
+          if (el.properties.hasOwnProperty('latitude')) {
+            let marker = new L.marker([lat,lon]);
+            marker.bindPopup(
+              "<ul>" +
+              "<li> Issue Date: " + permitDetails['issueddate'] + "</li>" +
+              "<li> Work Class: " + permitDetails['workclassgroup'] + "</li>" +
+              "<li> Contractor: " + permitDetails['contractorname'] + "</li>" +
+              "<li> Community: " + permitDetails['communityname'] + "</li>" +
+              "<li> Address: " + permitDetails['originaladdress'] + "</li>" +
+              "</ul>"
+            );
+            markers.addLayer(marker);
           }
-        }
-        
-        if (el.properties.hasOwnProperty('latitude')) {
-          let marker = new L.marker([lat,lon]);
-          marker.bindPopup(
-            "<ul>" +
-            "<li> Issue Date: " + permitDetails['issueddate'] + "</li>" +
-            "<li> Work Class: " + permitDetails['workclassgroup'] + "</li>" +
-            "<li> Contractor: " + permitDetails['contractorname'] + "</li>" +
-            "<li> Community: " + permitDetails['communityname'] + "</li>" +
-            "<li> Address: " + permitDetails['originaladdress'] + "</li>" +
-            "</ul>"
-          );
-          markers.addLayer(marker);
         }
       }
-    }
     map.addLayer(markers);
+    }
+    else {
+      document.getElementById('badQuery').innerHTML = "Date range invalid or no permits were found.";
+      document.getElementById('badQuery').style.display = "block";
+    }
   });
 /*
 getPermits().then(permitData => {
@@ -106,4 +112,4 @@ getPermits().then(permitData => {
 */
 }
 
-getPermits('2021-01-02','2021-03-05');
+
