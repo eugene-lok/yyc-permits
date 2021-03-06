@@ -54,7 +54,7 @@ const getPermits = (startDate, endDate) => {
     console.log(data);
     if (data.features.length != 0) {
       document.getElementById('badQuery').style.display = "none";
-      document.getElementById('goodQuery').style.display = "block";
+      document.getElementById('goodQuery').style.display = "flex";
       document.getElementById('goodQuery').innerHTML = data.features.length + " building permits were loaded.";
       for (let el of data.features) {
         console.log(el);
@@ -95,7 +95,7 @@ const getPermits = (startDate, endDate) => {
       // Display alert
       document.getElementById('goodQuery').style.display = "none";
       document.getElementById('badQuery').innerHTML = "Date range invalid or no permits were found.";
-      document.getElementById('badQuery').style.display = "block";
+      document.getElementById('badQuery').style.display = "flex";
     }
   });
 /*

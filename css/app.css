@@ -19,13 +19,21 @@ input {
   height: 80%;
 }
 
-#badQuery {
+#badQuery, #goodQuery {
   display: none;
 }
 
 .navbar {
   background-color: #FFFFFF;
   border: none;
+}
+
+.container-fluid {
+  display: flex;
+}
+
+.navbar-header {
+  display: flex;
 }
 
 .navbar-inverse .navbar-brand {
