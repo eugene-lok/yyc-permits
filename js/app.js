@@ -1,3 +1,15 @@
+new Litepicker({
+  element: document.getElementById('datepicker'),
+  singleMode: false,
+  tooltipText: {
+    one: 'night',
+    other: 'nights'
+  },
+  tooltipNumber: (totalDays) => {
+    return totalDays - 1;
+  }
+})
+
 // Initialize map
 const map = L.map('map', {
     // Center map at the City of Calgary
@@ -25,13 +37,13 @@ const getPermits = async(ay) => {
   .then(response => response.json())
   .then(data => {
     for (let el of data) {
-      // Check if permit details exist 
+      
       const allFields = ['issuedate','workclassgroup','contractorname','communityname','originaladdress'];
       let lat = el.latitude;
       let lon = el.longitude;
       
       let permitDetails = {};
-      
+      // Check if permit details exist 
       for (let field of allFields) {
         if (el.hasOwnProperty(field)) {
           permitDetails[field] = el[field];
@@ -40,12 +52,8 @@ const getPermits = async(ay) => {
           permitDetails[field] = 'No Info';
         }
       }
-      console.log(permitDetails);
-      if (!el.hasOwnProperty('location')) {
-        continue;
-      }
-      else {
-        //.addTo(map);
+      
+      if (el.hasOwnProperty('location')) {
         let marker = new L.marker([lat,lon]);
         marker.bindPopup(
           "<ul>" +
@@ -53,6 +61,7 @@ const getPermits = async(ay) => {
           "<li> Work Class: " + permitDetails['workclassgroup'] + "</li>" +
           "<li> Contractor: " + permitDetails['contractorname'] + "</li>" +
           "<li> Community: " + permitDetails['communityname'] + "</li>" +
+          "<li> Address: " + permitDetails['originaladdress'] + "</li>" +
           "</ul>"
         );
         markers.addLayer(marker);

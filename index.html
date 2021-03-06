@@ -13,6 +13,7 @@
         
         <!-- link the css files -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css"/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin=""/>
@@ -36,10 +37,18 @@
         <div id="container">
             <!-- Map --> 
             <div id="map"></div>
+            <div class = "dateSelect">
+                <h3> Select a date below: </h3>
+                <input class="form-control datePicker" id="datepicker" name="startDate" type="text" placeholder="Click here to set a date">
+            </div>     
         </div>
+        
+
     <!-- JS Links -->
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+    <!-- Litepicker-->
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
     <!-- Leaflet -->
     <script 
         src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"

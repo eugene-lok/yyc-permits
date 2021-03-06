@@ -8,9 +8,15 @@ body {
   padding-top: 50px;
 }
 
+input {
+  text-align: center;
+  max-width: 50%;
+  margin: 0 auto;
+}
+
 #map {
   width: auto;
-  height: 85%;
+  height: 80%;
 }
 
 .navbar {
@@ -25,4 +31,8 @@ body {
 
 .navbar-inverse .navbar-brand:hover {
   color: #555555;
+}
+
+.dateSelect { 
+  text-align: center;
 }
