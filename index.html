@@ -23,23 +23,30 @@
     </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <div class="navbar-icon-container">
-                        <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn">
-                            <i class="fa fa-bars fa-lg white"></i>
-                        </a>
-                    </div>
-                    <a class="navbar-brand" href="/">&#127970; YYC Permits</a>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="navbar-icon-container">
+                    <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn">
+                        <i class="fa fa-bars fa-lg white"></i>
+                    </a>
+                </div>
+                <a class="navbar-brand" href="/">&#127970; YYC Permits</a>
+                <div class = "allAlerts">
+                    <div id = 'badQuery' class = "alert alert-danger" role="alert"></div>
+                    <div id = 'goodQuery' class = "alert alert-success" role="alert"></div>
                 </div>
             </div>
         </div>
+        
+    </div>
         <div id="container">
             <!-- Map --> 
             <div id="map"></div>
             <div class = "dateSelect">
-                <h3> Select a date below: </h3>
+                <h3> Select a date range below: </h3>
                 <input class="form-control datePicker" id="datepicker" name="startDate" type="text" placeholder="Click here to set a date">
+                <button class = 'submit' id = 'getRange'>Submit</button>
+                
             </div>     
         </div>
         

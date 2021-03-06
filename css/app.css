@@ -19,9 +19,21 @@ input {
   height: 80%;
 }
 
+#badQuery, #goodQuery {
+  display: none;
+}
+
 .navbar {
   background-color: #FFFFFF;
   border: none;
+}
+
+.container-fluid {
+  display: flex;
+}
+
+.navbar-header {
+  display: flex;
 }
 
 .navbar-inverse .navbar-brand {
@@ -35,4 +47,9 @@ input {
 
 .dateSelect { 
   text-align: center;
+}
+
+.alert {
+  margin: 0 auto;
+  width: 500px;
 }
