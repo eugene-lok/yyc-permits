@@ -13,7 +13,7 @@ const OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}
 
 let markers = new L.markerClusterGroup({
   spiderifyOnMaxZoom: true,
-  addLayers: 'chunkedLoading'
+  addLayers: 'chunkedLoading' 
 });
 
 // Fetch Building Permit API
@@ -25,14 +25,36 @@ const getPermits = async(ay) => {
   .then(response => response.json())
   .then(data => {
     for (let el of data) {
+      // Check if permit details exist 
+      const allFields = ['issuedate','workclassgroup','contractorname','communityname','originaladdress'];
       let lat = el.latitude;
       let lon = el.longitude;
+      
+      let permitDetails = {};
+      
+      for (let field of allFields) {
+        if (el.hasOwnProperty(field)) {
+          permitDetails[field] = el[field];
+        }
+        else {
+          permitDetails[field] = 'No Info';
+        }
+      }
+      console.log(permitDetails);
       if (!el.hasOwnProperty('location')) {
         continue;
       }
       else {
         //.addTo(map);
         let marker = new L.marker([lat,lon]);
+        marker.bindPopup(
+          "<ul>" +
+          "<li> Issue Date: " + permitDetails['issuedate'] + "</li>" +
+          "<li> Work Class: " + permitDetails['workclassgroup'] + "</li>" +
+          "<li> Contractor: " + permitDetails['contractorname'] + "</li>" +
+          "<li> Community: " + permitDetails['communityname'] + "</li>" +
+          "</ul>"
+        );
         markers.addLayer(marker);
       }
     }
