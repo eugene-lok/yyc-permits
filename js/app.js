@@ -1,22 +1,24 @@
 // Initialize map
-var map = L.map('map', {
+const map = L.map('map', {
     // Center map at the City of Calgary
     center:[51, -114], 
     zoom: 10
 });
 
 //OpenStreetMap display
-var OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-let markers = L.markerClusterGroup();
-
+let markers = new L.markerClusterGroup({
+  spiderifyOnMaxZoom: true,
+  addLayers: 'chunkedLoading'
+});
 
 // Fetch Building Permit API
 const getPermits = async(ay) => {
-  
+  markers.clearLayers();
   // startDate,endDate,workGroup,contractor,commName,address
   const url = 'https://data.calgary.ca/resource/c2es-76ed.json';
   fetch(url)
@@ -29,12 +31,12 @@ const getPermits = async(ay) => {
         continue;
       }
       else {
-        console.log(lon);
-        L.marker([lat,lon]).addTo(map);
+        //.addTo(map);
+        let marker = new L.marker([lat,lon]);
+        markers.addLayer(marker);
       }
-    
-     console.log(el);
     }
+    map.addLayer(markers);
   });
 /*
 getPermits().then(permitData => {
