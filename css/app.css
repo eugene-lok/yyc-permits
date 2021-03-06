@@ -10,7 +10,7 @@ body {
 
 #map {
   width: auto;
-  height: 80%;
+  height: 85%;
 }
 
 .navbar {
@@ -20,6 +20,7 @@ body {
 
 .navbar-inverse .navbar-brand {
   color: #000000;
+  font-size: 24px;
 }
 
 .navbar-inverse .navbar-brand:hover {

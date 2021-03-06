@@ -11,21 +11,48 @@ var OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.p
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-leaflet.control.scale().addTo(this.leaf);
+let markers = L.markerClusterGroup();
 
-// define a blank geoJSON Layer
-var buildings = L.geoJSON(null);
-
-//get the geojson data with ajax, and add it to the blank layer we created
-/*
-$.getJSON('../data/bui.geojson',function(data){
-	buildings.addData(data);
-	map.fitBounds(buildings.getBounds());
-});
-
-// finally add the layer to the map
-buildings.addTo(map);
-*/
 
 // Fetch Building Permit API
+const getPermits = async(ay) => {
+  
+  // startDate,endDate,workGroup,contractor,commName,address
+  const url = 'https://data.calgary.ca/resource/c2es-76ed.json';
+  fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    for (let el of data) {
+      let lat = el.latitude;
+      let lon = el.longitude;
+      if (!el.hasOwnProperty('location')) {
+        continue;
+      }
+      else {
+        console.log(lon);
+        L.marker([lat,lon]).addTo(map);
+      }
+    
+     console.log(el);
+    }
+  });
+/*
+getPermits().then(permitData => {
+  console.log(permitData);
+  for (let el of permitData) {
+    let lat = el.latitude;
+    let lon = el.longitude;
+    if (lat === 'undefined' && lon === 'undefined') {
+      continue;
+    }
+    else {
+      console.log(lon);
+      L.marker([lat,lon]).addTo(map);
+    }
+  };
+})
+*/
+}
 
+const ayo = "ay";
+getPermits(ayo)
