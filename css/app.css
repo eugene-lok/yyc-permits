@@ -40,3 +40,8 @@ input {
 .dateSelect { 
   text-align: center;
 }
+
+.alert {
+  margin: 0 auto;
+  width: 500px;
+}
