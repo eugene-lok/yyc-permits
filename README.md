@@ -21,4 +21,4 @@ Leaflet, JavaScript, HTML + CSS
 * /js/app.js - API requests, seach form logic, Leaflet map parameters 
 * .gitignore - Specifies files ignored by Git
 * index.html - Displays map and search form
-* package-lock.json - Tracks version of installed packages via 'npm' 
+* package-lock.json - Tracks version of installed packages via `npm` 
